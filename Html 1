@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal</title>
+    <style>
+        body {
+            background-color: pink; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            color: white;
+        }
+        .heart {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            position: relative;
+            transform: rotate(-45deg);
+            animation: pulse 1s infinite;
+        }
+        .heart::before,
+        .heart::after {
+            content: "";
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+        }
+        .heart::before { top: -50px; left: 0; }
+        .heart::after { left: 50px; top: 0; }
+        
+        @keyframes pulse {
+            0% { transform: scale(1) rotate(-45deg); }
+            50% { transform: scale(1.2) rotate(-45deg); }
+            100% { transform: scale(1) rotate(-45deg); }
+        }
+        .message { font-size: 2em; margin-top: 20px; opacity: 0; animation: fadeIn 3s ease-in-out forwards; }
+        @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+        .hidden { display: none; }
+        .buttons { margin-top: 20px; position: relative; }
+        button {
+            font-size: 1.5em;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: 0.3s;
+            position: absolute;
+        }
+        .yes { background-color: green; color: white; left: 50px; }
+        .no { background-color: red; color: white; right: 50px; }
+        .yes:hover { background-color: darkgreen; }
+        .no:hover { background-color: darkred; }
+
+        #certificate {
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+            display: none;
+            text-align: left;
+            font-size: 1.2em;
+        }
+        input {
+            width: 100%;
+            padding: 5px;
+            font-size: 1em;
+            margin: 5px 0;
+            border: 1px solid black;
+        }
+        .print-button {
+            margin-top: 10px;
+            display: block;
+            background-color: blue;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            text-align: center;
+            border-radius: 5px;
+        }
+        .print-button:hover {
+            background-color: darkblue;
+        }
+    </style>
+</head>
+<body>
+    <div class="heart"></div>
+    <div id="message1" class="message hidden">Will you be mine forever? ❤️</div>
+    <div id="message2" class="message hidden">If it were possible to steal the moon 🌙 and the stars 🌟, I would give them all to you.</div>
+    <div id="message3" class="message hidden">You are the prettiest girl in the world! 💖</div>
+    <div id="message4" class="message hidden"><strong>Will you marry me? 💍</strong></div>
+
+    <div class="buttons hidden" id="button-container">
+        <button class="yes" onclick="showCertificate()">Yes 💖</button>
+        <button class="no" id="no-button" onclick="moveNoButton()">No 😢</button>
+    </div>
+
+    <div id="certificate">
+        <h2 style="text-align: center;">💍 Official Certificate of Marriage 💍</h2>
+        <p>Marriage was solemnized between the following individuals on this special day.</p>
+        <table border="1" width="100%" cellpadding="5">
+            <tr><th>Detail</th><th>Bridegroom</th><th>Bride</th></tr>
+            <tr><td>Surname</td><td><input type="text"></td><td><input type="text"></td></tr>
+            <tr><td>Other Names</td><td><input type="text"></td><td><input type="text"></td></tr>
+            <tr><td>Usual Occupation</td><td><input type="text"></td><td><input type="text"></td></tr>
+            <tr><td>Place of Residence</td><td><input type="text"></td><td><input type="text"></td></tr>
+            <tr><td>Conjugal Status</td><td><input type="text"></td><td><input type="text"></td></tr>
+            <tr><td>Birthplace</td><td><input type="text"></td><td><input type="text"></td></tr>
+            <tr><td>Date of Birth</td><td><input type="text"></td><td><input type="text"></td></tr>
+            <tr><td>Father’s Name</td><td><input type="text"></td><td><input type="text"></td></tr>
+            <tr><td>Mother’s Maiden Name</td><td><input type="text"></td><td><input type="text"></td></tr>
+        </table>
+        <p><strong>Signatures of the Married Couple:</strong> <input type="text"> & <input type="text"></p>
+        <p><strong>Witnesses:</strong> <input type="text"> & <input type="text"></p>
+        <p><strong>Signature of Celebrant:</strong> <input type="text"></p>
+        <p>Dated this <input type="text" style="width: 50px;"> day of <input type="text" style="width: 100px;">, 20<input type="text" style="width: 50px;">.</p>
+        <button class="print-button" onclick="window.print()">🖨 Print Certificate</button>
+    </div>
+
+    <script>
+        function showMessages() {
+            setTimeout(() => { document.getElementById("message1").classList.remove("hidden"); }, 2000);
+            setTimeout(() => { document.getElementById("message2").classList.remove("hidden"); }, 5000);
+            setTimeout(() => { document.getElementById("message3").classList.remove("hidden"); }, 8000);
+            setTimeout(() => { 
+                document.getElementById("message4").classList.remove("hidden");
+                document.getElementById("button-container").classList.remove("hidden"); 
+            }, 11000);
+        }
+
+        function moveNoButton() {
+            let noButton = document.getElementById("no-button");
+            let x = Math.random() * (window.innerWidth - 200);
+            let y = Math.random() * (window.innerHeight - 200);
+            noButton.style.position = "absolute";
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
+        }
+
+        function showCertificate() {
+            document.getElementById("message1").style.display = "none";
+            document.getElementById("message2").style.display = "none";
+            document.getElementById("message3").style.display = "none";
+            document.getElementById("message4").style.display = "none";
+            document.getElementById("button-container").style.display = "none";
+            document.getElementById("certificate").style.display = "block";
+        }
+
+        showMessages();
+    </script>
+</body>
+</html>
